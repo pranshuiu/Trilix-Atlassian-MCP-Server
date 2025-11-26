@@ -1,0 +1,9 @@
+[
+  {
+    "name": "example-workspace",
+    "baseUrl": "https://example.atlassian.net",
+    "email": "user@example.com",
+    "apiToken": "your-api-token-here"
+  }
+]
+
