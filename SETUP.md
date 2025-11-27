@@ -203,9 +203,76 @@ go build -o bin/confluence-service ./cmd/confluence-service
 go build -o bin/jira-service ./cmd/jira-service
 ```
 
+## Step 7: Configure Multiple Workspaces
+
+The MCP server supports connecting to **multiple Atlassian workspaces simultaneously**. This allows users to query Confluence or Jira from different organizations in the same chat session.
+
+### Using File-Based Storage (Recommended for Local Development)
+
+1. Edit `.config/workspaces.json` and add multiple workspace configurations:
+
+```json
+[
+  {
+    "name": "workspace-1",
+    "baseUrl": "https://example1.atlassian.net",
+    "email": "user@example.com",
+    "apiToken": "your-api-token-here"
+  },
+  {
+    "name": "workspace-2",
+    "baseUrl": "https://example2.atlassian.net",
+    "email": "user@example.com",
+    "apiToken": "your-api-token-here"
+  },
+  {
+    "name": "providentia",
+    "baseUrl": "https://providentiaworldwide.atlassian.net",
+    "email": "user@example.com",
+    "apiToken": "your-api-token-here"
+  }
+]
+```
+
+2. The `name` field becomes the `workspace_id` used in API calls
+3. Set `WORKSPACES_FILE=.config/workspaces.json` in your `.env` file
+
+### Using Multiple Workspaces in ChatGPT
+
+When using the MCP server with ChatGPT, you can query different workspaces in the same conversation:
+
+- **List available workspaces:** Use the `list_workspaces` tool
+- **Query a specific workspace:** Include `workspace_id` in your tool calls:
+  - `confluence_get_page` with `workspace_id: "workspace-1"`
+  - `jira_list_issues` with `workspace_id: "workspace-2"`
+  - Switch between workspaces seamlessly in the same chat
+
+### Example Usage
+
+```json
+// Get a page from workspace-1
+{
+  "tool": "confluence_get_page",
+  "arguments": {
+    "workspace_id": "workspace-1",
+    "page_id": "123456"
+  }
+}
+
+// Get issues from workspace-2
+{
+  "tool": "jira_list_issues",
+  "arguments": {
+    "workspace_id": "workspace-2",
+    "jql": "project = PROJ"
+  }
+}
+```
+
 ## Next Steps
 
-- Add your first workspace using the MCP tools
+- Add multiple workspaces to `.config/workspaces.json`
+- Test querying different workspaces in the same session
 - Configure Clerk authentication (optional)
 - Deploy to Kubernetes using `manifest.yaml` and `twistydeploy`
 

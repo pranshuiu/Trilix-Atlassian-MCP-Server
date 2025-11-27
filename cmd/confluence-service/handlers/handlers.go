@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/providentiaww/trilix-atlassian-mcp/cmd/confluence-service/api"
 	"github.com/providentiaww/trilix-atlassian-mcp/internal/models"
@@ -40,9 +41,17 @@ func (s *Service) HandleRequest(d amqp.Delivery) []byte {
 		return responseBytes
 	}
 
+	// Ensure Site URL includes /wiki for Confluence API
+	site := creds.Site
+	if site != "" && !strings.HasSuffix(site, "/wiki") {
+		// Remove trailing slash if present, then add /wiki
+		site = strings.TrimSuffix(site, "/")
+		site += "/wiki"
+	}
+
 	// Create API client
 	client := api.NewClient(api.WorkspaceCredentials{
-		Site:  creds.Site,
+		Site:  site,
 		Email: creds.Email,
 		Token: creds.Token,
 	})

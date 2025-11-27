@@ -28,9 +28,11 @@ type WorkspaceConfig struct {
 }
 
 // FileCredentialStore handles storage and retrieval of Atlassian credentials from a JSON file
+// Supports multiple workspaces simultaneously - users can connect to several Atlassian organizations
+// and query them in the same session by specifying different workspace_id values
 type FileCredentialStore struct {
 	filePath string
-	workspaces map[string]WorkspaceConfig
+	workspaces map[string]WorkspaceConfig // Indexed by workspace name (workspace_id)
 }
 
 // NewFileCredentialStore creates a new file-based credential store

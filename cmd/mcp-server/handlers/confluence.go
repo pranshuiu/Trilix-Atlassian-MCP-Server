@@ -28,13 +28,13 @@ func (h *ConfluenceHandler) ListTools() []mcp.Tool {
 	return []mcp.Tool{
 		{
 			Name:        "confluence_get_page",
-			Description: "Retrieve a Confluence page by ID from a specific workspace",
+			Description: "Retrieve a Confluence page by ID from a specific workspace. You can query different workspaces in the same chat by specifying different workspace_id values.",
 			InputSchema: map[string]interface{}{
 				"type": "object",
 				"properties": map[string]interface{}{
 					"workspace_id": map[string]interface{}{
 						"type":        "string",
-						"description": "Workspace ID (e.g., 'eso', 'providentia')",
+						"description": "Workspace ID to query (e.g., 'workspace-1', 'providentia'). Use list_workspaces to see available workspaces.",
 					},
 					"page_id": map[string]interface{}{
 						"type":        "string",
@@ -46,13 +46,13 @@ func (h *ConfluenceHandler) ListTools() []mcp.Tool {
 		},
 		{
 			Name:        "confluence_search",
-			Description: "Search for content in Confluence using CQL",
+			Description: "Search for content in Confluence using CQL. Supports querying multiple workspaces - specify workspace_id to search a specific organization.",
 			InputSchema: map[string]interface{}{
 				"type": "object",
 				"properties": map[string]interface{}{
 					"workspace_id": map[string]interface{}{
 						"type":        "string",
-						"description": "Workspace ID",
+						"description": "Workspace ID to search (e.g., 'workspace-1', 'providentia'). Use list_workspaces to see available workspaces.",
 					},
 					"query": map[string]interface{}{
 						"type":        "string",

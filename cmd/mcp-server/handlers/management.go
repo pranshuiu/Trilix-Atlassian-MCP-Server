@@ -26,7 +26,7 @@ func (h *ManagementHandler) ListTools() []mcp.Tool {
 	return []mcp.Tool{
 		{
 			Name:        "list_workspaces",
-			Description: "List all configured workspaces for the current user",
+			Description: "List all configured Atlassian workspaces. You can connect to multiple workspaces simultaneously and query different organizations in the same chat session.",
 			InputSchema: map[string]interface{}{
 				"type":       "object",
 				"properties": map[string]interface{}{},

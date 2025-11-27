@@ -28,13 +28,13 @@ func (h *JiraHandler) ListTools() []mcp.Tool {
 	return []mcp.Tool{
 		{
 			Name:        "jira_list_issues",
-			Description: "Search for Jira issues using JQL",
+			Description: "Search for Jira issues using JQL. Supports querying multiple workspaces - specify workspace_id to search a specific organization.",
 			InputSchema: map[string]interface{}{
 				"type": "object",
 				"properties": map[string]interface{}{
 					"workspace_id": map[string]interface{}{
 						"type":        "string",
-						"description": "Workspace ID",
+						"description": "Workspace ID to query (e.g., 'workspace-1', 'providentia'). Use list_workspaces to see available workspaces.",
 					},
 					"jql": map[string]interface{}{
 						"type":        "string",
@@ -58,13 +58,13 @@ func (h *JiraHandler) ListTools() []mcp.Tool {
 		},
 		{
 			Name:        "jira_get_issue",
-			Description: "Get a specific issue by key",
+			Description: "Get a specific issue by key from a workspace. You can query different workspaces in the same chat by specifying different workspace_id values.",
 			InputSchema: map[string]interface{}{
 				"type": "object",
 				"properties": map[string]interface{}{
 					"workspace_id": map[string]interface{}{
 						"type":        "string",
-						"description": "Workspace ID",
+						"description": "Workspace ID to query (e.g., 'workspace-1', 'providentia'). Use list_workspaces to see available workspaces.",
 					},
 					"issue_key": map[string]interface{}{
 						"type":        "string",
