@@ -1,0 +1,22 @@
+services:
+  - name: JiraService
+    category: atlassian
+    type: rpc
+    queueref: JiraRequests
+    instances:
+      dev: 1
+      tst: 2
+      prd: 3
+
+queues:
+  - name: JiraRequests
+    category: atlassian
+    type: rpc
+    exchange:
+      name: trilix.atlassian
+    queue:
+      name: jira.requests
+      autoack: false
+    routingkey: jira.rpc
+    protocol: json
+

@@ -1,0 +1,22 @@
+services:
+  - name: ConfluenceService
+    category: atlassian
+    type: rpc
+    queueref: ConfluenceRequests
+    instances:
+      dev: 1
+      tst: 2
+      prd: 3
+
+queues:
+  - name: ConfluenceRequests
+    category: atlassian
+    type: rpc
+    exchange:
+      name: trilix.atlassian
+    queue:
+      name: confluence.requests
+      autoack: false
+    routingkey: confluence.rpc
+    protocol: json
+

@@ -1,0 +1,49 @@
+services:
+  mcp-server:
+    exec: mcp-server
+    source: ./cmd/mcp-server
+    configpath: ./cmd/mcp-server/config/$deployment
+    instances:
+      dev: 1
+      tst: 2
+      prd: 3
+
+  confluence-service:
+    exec: confluence-service
+    source: ./cmd/confluence-service
+    configpath: ./cmd/confluence-service/config/$deployment
+    instances:
+      dev: 1
+      tst: 2
+      prd: 3
+
+  jira-service:
+    exec: jira-service
+    source: ./cmd/jira-service
+    configpath: ./cmd/jira-service/config/$deployment
+    instances:
+      dev: 1
+      tst: 2
+      prd: 3
+
+deployment:
+  production:
+    namespace: trilix-mcp
+    buildcmd: docker
+    containerrepo: your-registry.azurecr.io/trilix
+    imagerelease: latest
+    configgroup: trilix-mcp-config
+    instances: prd
+    goversion: golang:1.22
+    gobuildenv:
+      - CGO_ENABLED=0
+      - GOOS=linux
+      - GOARCH=amd64
+    resources:
+      limits:
+        cpu: "500m"
+        memory: "512Mi"
+      requests:
+        cpu: "250m"
+        memory: "256Mi"
+

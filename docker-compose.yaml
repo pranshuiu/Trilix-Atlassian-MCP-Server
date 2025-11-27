@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: trilix-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: trilix
+      RABBITMQ_DEFAULT_PASS: secret
+      RABBITMQ_DEFAULT_VHOST: trilix
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    image: postgres:15
+    container_name: trilix-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: trilix
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: trilix_mcp
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trilix"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  rabbitmq_data:
+  postgres_data:
+

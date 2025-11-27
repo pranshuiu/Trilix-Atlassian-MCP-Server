@@ -1,0 +1,17 @@
+common:
+  org: trilix
+  loglevel: info
+  amqplogging: false
+  consolelogging: true
+  settingsfiles:
+    - settings.yaml
+
+rabbitmq:
+  primary:
+    default: true
+    host: '@env:RABBITMQ_HOST'
+    vhost: '@env:RABBITMQ_VHOST'
+    port: 5672
+    username: '@env:RABBITMQ_USER'
+    password: '@env:RABBITMQ_PASSWORD'
+
